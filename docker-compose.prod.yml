@@ -1,0 +1,104 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-vendure}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-vendure}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-vendure}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  vendure:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-vendure}
+      DB_USERNAME: ${DB_USERNAME:-vendure}
+      DB_PASSWORD: ${DB_PASSWORD}
+      VENDURE_PORT: 3000
+      COOKIE_SECRET: ${COOKIE_SECRET}
+      SUPERADMIN_USERNAME: ${SUPERADMIN_USERNAME:-superadmin}
+      SUPERADMIN_PASSWORD: ${SUPERADMIN_PASSWORD}
+      EMAIL_NOTIFICATIONS_ENABLED: ${EMAIL_NOTIFICATIONS_ENABLED:-false}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      EMAIL_FROM: ${EMAIL_FROM:-noreply@example.com}
+      EMAIL_NOTIFY_TO: ${EMAIL_NOTIFY_TO:-}
+    volumes:
+      - vendure_assets:/app/static/assets
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  storefront:
+    build:
+      context: .
+      dockerfile: apps/storefront/Dockerfile
+    restart: always
+    depends_on:
+      - vendure
+    environment:
+      NODE_ENV: production
+      VENDURE_API_URL: http://vendure:3000/shop-api
+      NEXT_PUBLIC_SHOP_API_URL: ${PUBLIC_VENDURE_URL:-http://localhost:3000}/shop-api
+      NEXT_PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-http://localhost}
+      NEXT_PUBLIC_GA_MEASUREMENT_ID: ${GA_MEASUREMENT_ID:-}
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+      - ./certbot/www:/var/www/certbot:ro
+    depends_on:
+      - vendure
+      - storefront
+    networks:
+      - app-network
+
+  # Optional: Certbot for SSL (run manually first time)
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+volumes:
+  postgres_data:
+  vendure_assets:
+
+networks:
+  app-network:
+    driver: bridge
