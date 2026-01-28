@@ -9,11 +9,11 @@ export class CustomerReviewTranslation extends VendureEntity implements Translat
   }
 
   @Column('varchar')
-  languageCode: LanguageCode;
+  languageCode!: LanguageCode;
 
   @Column('text', { default: '' })
-  content: string;
+  content!: string;
 
   @ManyToOne(() => CustomerReview, (base) => base.translations, { onDelete: 'CASCADE' })
-  base: CustomerReview;
+  base!: CustomerReview;
 }

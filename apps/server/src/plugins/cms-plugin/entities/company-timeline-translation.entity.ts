@@ -9,14 +9,14 @@ export class CompanyTimelineTranslation extends VendureEntity implements Transla
   }
 
   @Column('varchar')
-  languageCode: LanguageCode;
+  languageCode!: LanguageCode;
 
   @Column({ default: '' })
-  title: string;
+  title!: string;
 
   @Column('text', { default: '' })
-  description: string;
+  description!: string;
 
   @ManyToOne(() => CompanyTimeline, (base) => base.translations, { onDelete: 'CASCADE' })
-  base: CompanyTimeline;
+  base!: CompanyTimeline;
 }

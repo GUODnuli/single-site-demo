@@ -38,7 +38,7 @@ export const config: VendureConfig = {
   },
   dbConnectionOptions: {
     type: 'postgres',
-    synchronize: false,
+    synchronize: IS_DEV, // Auto-sync in dev, use migrations in production
     logging: IS_DEV,
     migrations: [path.join(__dirname, './migrations/*.ts')],
     host: process.env.DB_HOST || 'localhost',
@@ -94,14 +94,14 @@ export const config: VendureConfig = {
       {
         name: 'icon',
         type: 'relation',
-        entity: 'Asset',
+        entity: 'Asset' as any,
         label: [{ languageCode: LanguageCode.en, value: 'Category Icon' }],
         nullable: true,
       },
       {
         name: 'bannerImage',
         type: 'relation',
-        entity: 'Asset',
+        entity: 'Asset' as any,
         label: [{ languageCode: LanguageCode.en, value: 'Banner Image' }],
         nullable: true,
       },

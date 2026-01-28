@@ -30,8 +30,9 @@ export class Certification extends VendureEntity implements Translatable {
   @ManyToOne(() => Asset, { eager: true, nullable: true, onDelete: 'SET NULL' })
   certificate: Asset;
 
-  @OneToMany(() => CertificationTranslation, (translation) => translation.base, { eager: true })
-  translations: Array<Translation<Certification>>;
+  // 2. 使用字符串引用
+  @OneToMany(() => CertificationTranslation, 'base', { cascade: true })
+  translations!: CertificationTranslation[];
 
   // Translatable fields
   name: LocaleString;

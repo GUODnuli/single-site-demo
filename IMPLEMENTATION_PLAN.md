@@ -52,7 +52,7 @@ single-site-demo/
 │   │   │       ├── cms-plugin/          # 自定义CMS插件
 │   │   │       │   ├── entities/
 │   │   │       │   │   ├── page.entity.ts
-│   │   │       │   │   ├── banner.entity.ts
+│   │   │       │   │   ├── banner.entity.ts`
 │   │   │       │   │   └── case-study.entity.ts
 │   │   │       │   ├── services/
 │   │   │       │   ├── resolvers/

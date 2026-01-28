@@ -33,8 +33,9 @@ export class CustomerReview extends VendureEntity implements Translatable {
   @ManyToOne(() => CaseStudy, (caseStudy) => caseStudy.reviews, { nullable: true, onDelete: 'SET NULL' })
   caseStudy: CaseStudy;
 
-  @OneToMany(() => CustomerReviewTranslation, (translation) => translation.base, { eager: true })
-  translations: Array<Translation<CustomerReview>>;
+  // 2. 使用字符串引用
+  @OneToMany(() => CustomerReviewTranslation, 'base', { cascade: true })
+  translations!: CustomerReviewTranslation[];
 
   // Translatable field
   content: LocaleString;

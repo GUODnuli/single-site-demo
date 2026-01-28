@@ -29,9 +29,10 @@ export class TeamMember extends VendureEntity implements Translatable {
 
   @ManyToOne(() => Asset, { eager: true, nullable: true, onDelete: 'SET NULL' })
   photo: Asset;
-
-  @OneToMany(() => TeamMemberTranslation, (translation) => translation.base, { eager: true })
-  translations: Array<Translation<TeamMember>>;
+  
+  // 2. 使用字符串引用
+  @OneToMany(() => TeamMemberTranslation, 'base', { cascade: true })
+  translations!: TeamMemberTranslation[];
 
   // Translatable fields
   jobTitle: LocaleString;

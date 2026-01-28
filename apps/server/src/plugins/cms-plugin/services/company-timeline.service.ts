@@ -13,6 +13,7 @@ import {
 } from '@vendure/core';
 import { CompanyTimeline } from '../entities/company-timeline.entity';
 import { CompanyTimelineTranslation } from '../entities/company-timeline-translation.entity';
+import { LanguageCode } from '@vendure/core';
 
 export interface CreateCompanyTimelineInput {
   year: number;
@@ -20,7 +21,7 @@ export interface CreateCompanyTimelineInput {
   enabled?: boolean;
   imageId?: ID;
   translations: Array<{
-    languageCode: string;
+    languageCode: LanguageCode;
     title: string;
     description?: string;
   }>;
@@ -33,7 +34,7 @@ export interface UpdateCompanyTimelineInput {
   enabled?: boolean;
   imageId?: ID;
   translations?: Array<{
-    languageCode: string;
+    languageCode: LanguageCode;
     title?: string;
     description?: string;
   }>;

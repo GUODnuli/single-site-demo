@@ -13,6 +13,7 @@ import {
 } from '@vendure/core';
 import { Certification } from '../entities/certification.entity';
 import { CertificationTranslation } from '../entities/certification-translation.entity';
+import { LanguageCode } from '@vendure/core';
 
 export interface CreateCertificationInput {
   code: string;
@@ -21,7 +22,7 @@ export interface CreateCertificationInput {
   iconId?: ID;
   certificateId?: ID;
   translations: Array<{
-    languageCode: string;
+    languageCode: LanguageCode;
     name: string;
     description?: string;
   }>;
@@ -35,7 +36,7 @@ export interface UpdateCertificationInput {
   iconId?: ID;
   certificateId?: ID;
   translations?: Array<{
-    languageCode: string;
+    languageCode: LanguageCode;
     name?: string;
     description?: string;
   }>;

@@ -9,17 +9,17 @@ export class CaseStudyTranslation extends VendureEntity implements Translation<C
   }
 
   @Column('varchar')
-  languageCode: LanguageCode;
+  languageCode!: LanguageCode;
 
   @Column({ default: '' })
-  title: string;
+  title!: string;
 
   @Column('text', { default: '' })
-  description: string;
+  description!: string;
 
   @Column('text', { default: '' })
-  content: string;
+  content!: string;
 
   @ManyToOne(() => CaseStudy, (base) => base.translations, { onDelete: 'CASCADE' })
-  base: CaseStudy;
+  base!: CaseStudy;
 }

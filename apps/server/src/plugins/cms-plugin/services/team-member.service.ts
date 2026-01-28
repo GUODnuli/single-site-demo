@@ -13,6 +13,7 @@ import {
 } from '@vendure/core';
 import { TeamMember } from '../entities/team-member.entity';
 import { TeamMemberTranslation } from '../entities/team-member-translation.entity';
+import { LanguageCode } from '@vendure/core';
 
 export interface CreateTeamMemberInput {
   name: string;
@@ -21,7 +22,7 @@ export interface CreateTeamMemberInput {
   enabled?: boolean;
   photoId?: ID;
   translations: Array<{
-    languageCode: string;
+    languageCode: LanguageCode;
     jobTitle: string;
     bio?: string;
   }>;
@@ -35,7 +36,7 @@ export interface UpdateTeamMemberInput {
   enabled?: boolean;
   photoId?: ID;
   translations?: Array<{
-    languageCode: string;
+    languageCode: LanguageCode;
     jobTitle?: string;
     bio?: string;
   }>;

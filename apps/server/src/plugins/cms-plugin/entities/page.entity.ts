@@ -3,12 +3,11 @@ import {
   VendureEntity,
   LocaleString,
   Translatable,
-  Translation,
   ChannelAware,
   Channel,
 } from '@vendure/core';
 import { Column, Entity, ManyToMany, JoinTable, OneToMany } from 'typeorm';
-import { PageTranslation } from './page-translation.entity';
+import { PageTranslation } from './page-translation.entity'; // ✅ 恢复导入
 
 @Entity()
 export class Page extends VendureEntity implements Translatable, ChannelAware {
@@ -17,21 +16,22 @@ export class Page extends VendureEntity implements Translatable, ChannelAware {
   }
 
   @Column({ unique: true })
-  slug: string;
+  slug!: string;
 
   @Column({ default: true })
-  enabled: boolean;
+  enabled!: boolean;
 
-  @OneToMany(() => PageTranslation, (translation) => translation.base, { eager: true })
-  translations: Array<Translation<Page>>;
+  // 使用箭头函数延迟加载，避免循环依赖
+  @OneToMany(() => PageTranslation, translation => translation.base, { cascade: true })
+  translations!: PageTranslation[];
 
   @ManyToMany(() => Channel)
   @JoinTable()
-  channels: Channel[];
+  channels!: Channel[];
 
   // Translatable fields
-  title: LocaleString;
-  content: LocaleString;
-  seoTitle: LocaleString;
-  seoDescription: LocaleString;
+  title!: LocaleString;
+  content!: LocaleString;
+  seoTitle!: LocaleString;
+  seoDescription!: LocaleString;
 }

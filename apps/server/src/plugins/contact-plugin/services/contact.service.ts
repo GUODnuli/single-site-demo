@@ -30,7 +30,7 @@ export interface UpdateContactSubmissionInput {
 
 @Injectable()
 export class ContactService {
-  private logger = new Logger(ContactService.name);
+  private logger = new Logger();
 
   constructor(
     private connection: TransactionalConnection,

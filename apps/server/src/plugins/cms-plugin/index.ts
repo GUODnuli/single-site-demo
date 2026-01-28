@@ -3,6 +3,7 @@ import { AdminUiExtension } from '@vendure/ui-devkit/compiler';
 import path from 'path';
 
 import { Banner } from './entities/banner.entity';
+import { BannerTranslation } from './entities/banner-translation.entity';
 import { Page } from './entities/page.entity';
 import { CaseStudy } from './entities/case-study.entity';
 import { CaseCategory } from './entities/case-category.entity';
@@ -29,6 +30,7 @@ import { adminApiExtensions, shopApiExtensions } from './api/api-extensions';
   imports: [PluginCommonModule],
   entities: [
     Banner,
+    BannerTranslation,
     Page,
     CaseStudy,
     CaseCategory,

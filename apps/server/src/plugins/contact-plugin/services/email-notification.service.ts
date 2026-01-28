@@ -15,7 +15,6 @@ interface EmailConfig {
 @Injectable()
 export class EmailNotificationService implements OnModuleInit {
   private config: EmailConfig;
-  private logger = new Logger(EmailNotificationService.name);
 
   constructor(private configService: ConfigService) {
     this.config = {
@@ -31,32 +30,29 @@ export class EmailNotificationService implements OnModuleInit {
 
   onModuleInit() {
     if (this.config.enabled) {
-      this.logger.info('Email notifications enabled');
+      Logger.info('Email notifications enabled');
     } else {
-      this.logger.info('Email notifications disabled');
+      Logger.info('Email notifications disabled');
     }
   }
-
   async sendContactNotification(
     ctx: RequestContext,
     submission: ContactSubmission,
   ): Promise<boolean> {
     if (!this.config.enabled || this.config.toEmails.length === 0) {
-      this.logger.debug('Email notification skipped: not configured');
+      Logger.debug('Email notification skipped: not configured');
       return false;
     }
-
     try {
       const emailContent = this.buildEmailContent(submission);
 
       // In production, integrate with your email service (SendGrid, AWS SES, etc.)
       // For now, we'll log the email content and simulate sending
-      this.logger.info(`Contact notification email:
+      Logger.info(`Contact notification email:
         To: ${this.config.toEmails.join(', ')}
         Subject: ${emailContent.subject}
         From: ${submission.name} <${submission.email}>
       `);
-
       // If using nodemailer (add nodemailer to package.json):
       // await this.sendViaNodemailer(emailContent);
 
@@ -65,7 +61,7 @@ export class EmailNotificationService implements OnModuleInit {
 
       return true;
     } catch (error) {
-      this.logger.error(`Failed to send contact notification: ${error}`);
+      Logger.error(`Failed to send contact notification: ${error}`);
       return false;
     }
   }

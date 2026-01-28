@@ -17,6 +17,7 @@ import { CaseStudy } from '../entities/case-study.entity';
 import { CaseStudyTranslation } from '../entities/case-study-translation.entity';
 import { CaseCategory } from '../entities/case-category.entity';
 import { CustomerReview } from '../entities/customer-review.entity';
+import { LanguageCode } from '@vendure/core';
 
 export interface CreateCaseStudyInput {
   slug: string;
@@ -30,7 +31,7 @@ export interface CreateCaseStudyInput {
   featuredImageId?: ID;
   galleryIds?: ID[];
   translations: Array<{
-    languageCode: string;
+    languageCode: LanguageCode;
     title: string;
     description?: string;
     content?: string;
@@ -50,7 +51,7 @@ export interface UpdateCaseStudyInput {
   featuredImageId?: ID;
   galleryIds?: ID[];
   translations?: Array<{
-    languageCode: string;
+    languageCode: LanguageCode;
     title?: string;
     description?: string;
     content?: string;

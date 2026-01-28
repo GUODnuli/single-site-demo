@@ -9,14 +9,14 @@ export class BannerTranslation extends VendureEntity implements Translation<Bann
   }
 
   @Column('varchar')
-  languageCode: LanguageCode;
+  languageCode!: LanguageCode;
 
   @Column({ default: '' })
-  title: string;
+  title!: string;
 
   @Column({ default: '' })
-  subtitle: string;
+  subtitle!: string;
 
   @ManyToOne(() => Banner, (base) => base.translations, { onDelete: 'CASCADE' })
-  base: Banner;
+  base!: Banner;
 }

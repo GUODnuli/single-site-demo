@@ -14,6 +14,7 @@ import {
 } from '@vendure/core';
 import { Banner } from '../entities/banner.entity';
 import { BannerTranslation } from '../entities/banner-translation.entity';
+import { LanguageCode } from '@vendure/core';
 
 export interface CreateBannerInput {
   code: string;
@@ -22,7 +23,7 @@ export interface CreateBannerInput {
   link?: string;
   imageId?: ID;
   translations: Array<{
-    languageCode: string;
+    languageCode: LanguageCode
     title: string;
     subtitle?: string;
   }>;
@@ -36,7 +37,7 @@ export interface UpdateBannerInput {
   link?: string;
   imageId?: ID;
   translations?: Array<{
-    languageCode: string;
+    languageCode: LanguageCode;
     title?: string;
     subtitle?: string;
   }>;

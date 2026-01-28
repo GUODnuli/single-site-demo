@@ -61,7 +61,7 @@ export interface DateRange {
 
 @Injectable()
 export class AnalyticsService {
-  private logger = new Logger(AnalyticsService.name);
+  private logger = new Logger();
 
   constructor(
     private connection: TransactionalConnection,
@@ -172,6 +172,7 @@ export class AnalyticsService {
       ipAddress: this.getClientIp(req),
       userAgent: req?.headers?.['user-agent'],
       userId: ctx.activeUserId,
+      properties: input.properties as any,
     });
 
     return this.connection.getRepository(ctx, AnalyticsEvent).save(event);

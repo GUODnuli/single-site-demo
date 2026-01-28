@@ -18,28 +18,29 @@ export class Banner extends VendureEntity implements Translatable, ChannelAware 
   }
 
   @Column({ default: '' })
-  code: string;
+  code!: string;
 
   @Column('int', { default: 0 })
-  position: number;
+  position!: number;
 
   @Column({ default: true })
-  enabled: boolean;
+  enabled!: boolean;
 
   @Column({ nullable: true })
-  link: string;
+  link!: string;
 
   @ManyToOne(() => Asset, { eager: true, nullable: true, onDelete: 'SET NULL' })
-  image: Asset;
+  image!: Asset;
 
-  @OneToMany(() => BannerTranslation, (translation) => translation.base, { eager: true })
-  translations: Array<Translation<Banner>>;
+  // 修复这里：使用字符串引用避免循环依赖
+  @OneToMany(() => BannerTranslation, 'base', { cascade: true })
+  translations!: BannerTranslation[];
 
   @ManyToMany(() => Channel)
   @JoinTable()
-  channels: Channel[];
+  channels!: Channel[];
 
   // Translatable fields
-  title: LocaleString;
-  subtitle: LocaleString;
+  title!: LocaleString;
+  subtitle!: LocaleString;
 }

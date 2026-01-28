@@ -21,8 +21,9 @@ export class CaseCategory extends VendureEntity implements Translatable {
   @Column('int', { default: 0 })
   position: number;
 
-  @OneToMany(() => CaseCategoryTranslation, (translation) => translation.base, { eager: true })
-  translations: Array<Translation<CaseCategory>>;
+  // 2. 使用字符串引用
+  @OneToMany(() => CaseCategoryTranslation, 'base', { cascade: true })
+  translations!: CaseCategoryTranslation[];
 
   @OneToMany(() => CaseStudy, (caseStudy) => caseStudy.category)
   caseStudies: CaseStudy[];

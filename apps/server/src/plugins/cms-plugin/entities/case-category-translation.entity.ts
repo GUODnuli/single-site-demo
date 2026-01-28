@@ -9,11 +9,11 @@ export class CaseCategoryTranslation extends VendureEntity implements Translatio
   }
 
   @Column('varchar')
-  languageCode: LanguageCode;
+  languageCode!: LanguageCode;
 
   @Column({ default: '' })
-  name: string;
+  name!: string;
 
   @ManyToOne(() => CaseCategory, (base) => base.translations, { onDelete: 'CASCADE' })
-  base: CaseCategory;
+  base!: CaseCategory;
 }

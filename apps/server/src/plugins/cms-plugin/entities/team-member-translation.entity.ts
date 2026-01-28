@@ -9,14 +9,14 @@ export class TeamMemberTranslation extends VendureEntity implements Translation<
   }
 
   @Column('varchar')
-  languageCode: LanguageCode;
+  languageCode!: LanguageCode;
 
   @Column({ default: '' })
-  jobTitle: string;
+  jobTitle!: string;
 
   @Column('text', { default: '' })
-  bio: string;
+  bio!: string;
 
   @ManyToOne(() => TeamMember, (base) => base.translations, { onDelete: 'CASCADE' })
-  base: TeamMember;
+  base!: TeamMember;
 }

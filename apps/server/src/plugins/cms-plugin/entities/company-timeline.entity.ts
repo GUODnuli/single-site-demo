@@ -27,8 +27,9 @@ export class CompanyTimeline extends VendureEntity implements Translatable {
   @ManyToOne(() => Asset, { eager: true, nullable: true, onDelete: 'SET NULL' })
   image: Asset;
 
-  @OneToMany(() => CompanyTimelineTranslation, (translation) => translation.base, { eager: true })
-  translations: Array<Translation<CompanyTimeline>>;
+  // 2. 使用字符串引用
+  @OneToMany(() => CompanyTimelineTranslation, 'base', { cascade: true })
+  translations!: CompanyTimelineTranslation[];
 
   // Translatable fields
   title: LocaleString;

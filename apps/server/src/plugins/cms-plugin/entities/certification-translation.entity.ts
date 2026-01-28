@@ -9,14 +9,14 @@ export class CertificationTranslation extends VendureEntity implements Translati
   }
 
   @Column('varchar')
-  languageCode: LanguageCode;
+  languageCode!: LanguageCode;
 
   @Column({ default: '' })
-  name: string;
+  name!: string;
 
   @Column('text', { default: '' })
-  description: string;
+  description!: string;
 
   @ManyToOne(() => Certification, (base) => base.translations, { onDelete: 'CASCADE' })
-  base: Certification;
+  base!: Certification;
 }

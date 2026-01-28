@@ -12,12 +12,13 @@ import {
 } from '@vendure/core';
 import { Page } from '../entities/page.entity';
 import { PageTranslation } from '../entities/page-translation.entity';
+import { LanguageCode } from '@vendure/core';
 
 export interface CreatePageInput {
   slug: string;
   enabled?: boolean;
   translations: Array<{
-    languageCode: string;
+    languageCode: LanguageCode;
     title: string;
     content?: string;
     seoTitle?: string;
@@ -30,7 +31,7 @@ export interface UpdatePageInput {
   slug?: string;
   enabled?: boolean;
   translations?: Array<{
-    languageCode: string;
+    languageCode: LanguageCode;
     title?: string;
     content?: string;
     seoTitle?: string;
