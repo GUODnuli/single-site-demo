@@ -1,4 +1,4 @@
-import { DeepPartial, ID, VendureEntity } from '@vendure/core';
+import { DeepPartial, VendureEntity } from '@vendure/core';
 import { Column, Entity, Index } from 'typeorm';
 
 export type EventCategory =
@@ -22,41 +22,41 @@ export class AnalyticsEvent extends VendureEntity {
 
   @Column()
   @Index()
-  eventName: string;
+  eventName!: string;
 
   @Column({ default: 'custom' })
-  category: EventCategory;
+  category!: EventCategory;
 
   @Column({ nullable: true })
-  label: string;
+  label!: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
-  value: number;
+  value!: number;
 
   @Column({ type: 'simple-json', nullable: true })
-  properties: Record<string, unknown>;
+  properties!: Record<string, unknown>;
 
   @Column({ nullable: true })
-  sessionId: string;
+  sessionId!: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  userId!: number;
+
+  @Column({ type: 'bigint', nullable: true })
+  productId!: number;
+
+  @Column({ type: 'bigint', nullable: true })
+  orderId!: number;
 
   @Column({ nullable: true })
-  userId: ID;
+  path!: string;
 
   @Column({ nullable: true })
-  productId: ID;
+  ipAddress!: string;
 
   @Column({ nullable: true })
-  orderId: ID;
+  userAgent!: string;
 
   @Column({ nullable: true })
-  path: string;
-
-  @Column({ nullable: true })
-  ipAddress: string;
-
-  @Column({ nullable: true })
-  userAgent: string;
-
-  @Column({ nullable: true })
-  locale: string;
+  locale!: string;
 }

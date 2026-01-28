@@ -5,12 +5,19 @@ import path from 'path';
 import { Banner } from './entities/banner.entity';
 import { BannerTranslation } from './entities/banner-translation.entity';
 import { Page } from './entities/page.entity';
+import { PageTranslation } from './entities/page-translation.entity';
 import { CaseStudy } from './entities/case-study.entity';
+import { CaseStudyTranslation } from './entities/case-study-translation.entity';
 import { CaseCategory } from './entities/case-category.entity';
+import { CaseCategoryTranslation } from './entities/case-category-translation.entity';
 import { CustomerReview } from './entities/customer-review.entity';
+import { CustomerReviewTranslation } from './entities/customer-review-translation.entity';
 import { Certification } from './entities/certification.entity';
+import { CertificationTranslation } from './entities/certification-translation.entity';
 import { TeamMember } from './entities/team-member.entity';
+import { TeamMemberTranslation } from './entities/team-member-translation.entity';
 import { CompanyTimeline } from './entities/company-timeline.entity';
+import { CompanyTimelineTranslation } from './entities/company-timeline-translation.entity';
 
 import { BannerService } from './services/banner.service';
 import { PageService } from './services/page.service';
@@ -32,12 +39,19 @@ import { adminApiExtensions, shopApiExtensions } from './api/api-extensions';
     Banner,
     BannerTranslation,
     Page,
+    PageTranslation,
     CaseStudy,
+    CaseStudyTranslation,
     CaseCategory,
+    CaseCategoryTranslation,
     CustomerReview,
+    CustomerReviewTranslation,
     Certification,
+    CertificationTranslation,
     TeamMember,
+    TeamMemberTranslation,
     CompanyTimeline,
+    CompanyTimelineTranslation,
   ],
   providers: [
     BannerService,

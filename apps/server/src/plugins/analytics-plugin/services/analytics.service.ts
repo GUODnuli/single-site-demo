@@ -76,9 +76,11 @@ export class AnalyticsService {
     const req = (ctx as any).req;
     const view = new ProductView({
       ...input,
+      productId: Number(input.productId),
+      productVariantId: input.productVariantId ? Number(input.productVariantId) : undefined,
       ipAddress: this.getClientIp(req),
       userAgent: req?.headers?.['user-agent'],
-      userId: ctx.activeUserId,
+      userId: ctx.activeUserId ? Number(ctx.activeUserId) : undefined,
       ...this.parseUserAgent(req?.headers?.['user-agent']),
     });
 
@@ -130,7 +132,7 @@ export class AnalyticsService {
       ...input,
       ipAddress: this.getClientIp(req),
       userAgent: req?.headers?.['user-agent'],
-      userId: ctx.activeUserId,
+      userId: ctx.activeUserId ? Number(ctx.activeUserId) : undefined,
       ...this.parseUserAgent(req?.headers?.['user-agent']),
     });
 
@@ -171,7 +173,9 @@ export class AnalyticsService {
       category: input.category || 'custom',
       ipAddress: this.getClientIp(req),
       userAgent: req?.headers?.['user-agent'],
-      userId: ctx.activeUserId,
+      userId: ctx.activeUserId ? Number(ctx.activeUserId) : undefined,
+      productId: input.productId ? Number(input.productId) : undefined,
+      orderId: input.orderId ? Number(input.orderId) : undefined,
       properties: input.properties as any,
     });
 

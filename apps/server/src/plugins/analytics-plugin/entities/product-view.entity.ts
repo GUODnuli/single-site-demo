@@ -1,4 +1,4 @@
-import { DeepPartial, ID, VendureEntity } from '@vendure/core';
+import { DeepPartial, VendureEntity } from '@vendure/core';
 import { Column, Entity, Index } from 'typeorm';
 
 @Entity()
@@ -9,46 +9,46 @@ export class ProductView extends VendureEntity {
     super(input);
   }
 
-  @Column()
+  @Column({ type: 'bigint' })
   @Index()
-  productId: ID;
+  productId!: number;
+
+  @Column({ type: 'bigint', nullable: true })
+  productVariantId!: number;
 
   @Column({ nullable: true })
-  productVariantId: ID;
+  sessionId!: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  userId!: number;
 
   @Column({ nullable: true })
-  sessionId: string;
+  ipAddress!: string;
 
   @Column({ nullable: true })
-  userId: ID;
+  userAgent!: string;
 
   @Column({ nullable: true })
-  ipAddress: string;
+  referrer!: string;
 
   @Column({ nullable: true })
-  userAgent: string;
+  country!: string;
 
   @Column({ nullable: true })
-  referrer: string;
+  city!: string;
 
   @Column({ nullable: true })
-  country: string;
+  device!: string;
 
   @Column({ nullable: true })
-  city: string;
+  browser!: string;
 
   @Column({ nullable: true })
-  device: string;
-
-  @Column({ nullable: true })
-  browser: string;
-
-  @Column({ nullable: true })
-  os: string;
+  os!: string;
 
   @Column({ default: 0 })
-  durationSeconds: number;
+  durationSeconds!: number;
 
   @Column({ nullable: true })
-  locale: string;
+  locale!: string;
 }

@@ -8,32 +8,32 @@ export class ContactSubmission extends VendureEntity {
   }
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column()
-  email: string;
+  email!: string;
 
   @Column({ nullable: true })
-  phone: string;
+  phone!: string;
 
   @Column({ nullable: true })
-  company: string;
+  company!: string;
 
   @Column('text')
-  message: string;
+  message!: string;
 
   @Column({ nullable: true })
-  source: string;
+  source!: string;
 
   @Column({ nullable: true })
-  ipAddress: string;
+  ipAddress!: string;
 
   @Column({ nullable: true })
-  userAgent: string;
+  userAgent!: string;
 
   @Column({ default: false })
-  isRead: boolean;
+  isRead!: boolean;
 
   @Column('text', { nullable: true })
-  notes: string;
+  notes!: string;
 }

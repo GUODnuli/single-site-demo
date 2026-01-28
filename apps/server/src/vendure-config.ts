@@ -3,6 +3,7 @@ import {
   DefaultJobQueuePlugin,
   DefaultSearchPlugin,
   LanguageCode,
+  Asset,
 } from '@vendure/core';
 import { AdminUiPlugin } from '@vendure/admin-ui-plugin';
 import { AssetServerPlugin } from '@vendure/asset-server-plugin';
@@ -94,14 +95,16 @@ export const config: VendureConfig = {
       {
         name: 'icon',
         type: 'relation',
-        entity: 'Asset' as any,
+        entity: Asset,
+        graphQLType: 'Asset',
         label: [{ languageCode: LanguageCode.en, value: 'Category Icon' }],
         nullable: true,
       },
       {
         name: 'bannerImage',
         type: 'relation',
-        entity: 'Asset' as any,
+        entity: Asset,
+        graphQLType: 'Asset',
         label: [{ languageCode: LanguageCode.en, value: 'Banner Image' }],
         nullable: true,
       },
