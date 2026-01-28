@@ -53,5 +53,5 @@ static/assets
 backups
 certbot
 
-// Local settings
-.claude
+# Local settings
+.claude/
