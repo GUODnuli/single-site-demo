@@ -86,9 +86,7 @@ export function useScrollDepthTracking(productId?: string) {
         milestones.forEach((milestone) => {
           if (depth >= milestone && !reported.current.has(milestone)) {
             reported.current.add(milestone);
-            analytics.productView &&
-              analytics.shareProduct && // Using as a proxy for generic event
-              import('@/lib/analytics').then(({ trackAnalyticsEvent }) => {
+            import('@/lib/analytics').then(({ trackAnalyticsEvent }) => {
                 trackAnalyticsEvent({
                   eventName: 'scroll_depth',
                   category: 'engagement',
