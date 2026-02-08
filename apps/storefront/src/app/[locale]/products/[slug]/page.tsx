@@ -122,8 +122,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
         applicationScenes={product.customFields?.applicationScenes || []}
       />
 
+      {/* fixme:  <RelatedProducts products={relatedProducts} />*/}
       {/* Related Products */}
-      <RelatedProducts currentProductId={product.id} />
+      <RelatedProducts products={[]} />
     </div>
   );
 }
