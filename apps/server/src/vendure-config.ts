@@ -4,6 +4,10 @@ import {
   DefaultSearchPlugin,
   LanguageCode,
   Asset,
+  dummyPaymentHandler,
+  defaultShippingCalculator,
+  defaultShippingEligibilityChecker,
+  manualFulfillmentHandler,
 } from '@vendure/core';
 import { AdminUiPlugin } from '@vendure/admin-ui-plugin';
 import { AssetServerPlugin } from '@vendure/asset-server-plugin';
@@ -49,7 +53,12 @@ export const config: VendureConfig = {
     password: process.env.DB_PASSWORD || 'vendure_password',
   },
   paymentOptions: {
-    paymentMethodHandlers: [],
+    paymentMethodHandlers: [dummyPaymentHandler],
+  },
+  shippingOptions: {
+    shippingCalculators: [defaultShippingCalculator],
+    shippingEligibilityCheckers: [defaultShippingEligibilityChecker],
+    fulfillmentHandlers: [manualFulfillmentHandler],
   },
   customFields: {
     Product: [

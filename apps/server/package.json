@@ -10,7 +10,8 @@
     "start:worker": "node ./dist/index-worker.js",
     "migration:generate": "ts-node ./src/migrate.ts generate",
     "migration:run": "ts-node ./src/migrate.ts run",
-    "migration:revert": "ts-node ./src/migrate.ts revert"
+    "migration:revert": "ts-node ./src/migrate.ts revert",
+    "seed": "ts-node ./src/seed-data.ts"
   },
   "dependencies": {
     "@vendure/admin-ui-plugin": "^3.1.2",

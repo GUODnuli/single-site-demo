@@ -8,6 +8,7 @@ import { Link } from '@/lib/navigation';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { MobileNav } from './MobileNav';
+import { CartDrawer } from '@/components/cart/CartDrawer';
 
 const navItems = [
   { href: '/', labelKey: 'home' },
@@ -50,6 +51,7 @@ export function Header() {
               <span className="sr-only">{t('search')}</span>
             </Button>
 
+            <CartDrawer />
             <LanguageSwitcher />
 
             {/* Mobile Menu Button */}

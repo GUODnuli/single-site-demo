@@ -2,12 +2,13 @@
 
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
-import { Heart, Share2, FileText, Mail, Check } from 'lucide-react';
+import { Heart, Share2, FileText, Mail, Check, ShoppingCart, Minus, Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useAnalytics } from '@/hooks/useAnalytics';
+import { useAddToCart } from '@/hooks/useOrder';
 
 interface ProductVariant {
   id: string;
@@ -40,6 +41,8 @@ export function ProductInfo({ product }: ProductInfoProps) {
     product.variants[0] || null
   );
   const [isCopied, setIsCopied] = React.useState(false);
+  const [quantity, setQuantity] = React.useState(1);
+  const addToCart = useAddToCart();
 
   const formatPrice = (price: number, currencyCode: string) => {
     return new Intl.NumberFormat('en-US', {
@@ -204,9 +207,63 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
       <Separator />
 
+      {/* Quantity Selector */}
+      {selectedVariant && selectedVariant.stockLevel !== 'OUT_OF_STOCK' && (
+        <div>
+          <h3 className="mb-2 text-sm font-medium">{t('quantity')}</h3>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-9 w-9"
+              onClick={() => setQuantity(Math.max(1, quantity - 1))}
+              disabled={quantity <= 1}
+            >
+              <Minus className="h-4 w-4" />
+            </Button>
+            <span className="w-12 text-center text-sm font-medium">{quantity}</span>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-9 w-9"
+              onClick={() => setQuantity(quantity + 1)}
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Action Buttons */}
       <div className="flex flex-col gap-3">
-        <Button size="lg" className="w-full" onClick={handleRequestQuote}>
+        <Button
+          size="lg"
+          className="w-full"
+          onClick={() => {
+            if (!selectedVariant) return;
+            addToCart.mutate(
+              { productVariantId: selectedVariant.id, quantity },
+              {
+                onSuccess: (data) => {
+                  if (data && !data.errorCode) {
+                    analytics.addToCart(product.id, quantity, selectedVariant.priceWithTax);
+                    setQuantity(1);
+                  }
+                },
+              }
+            );
+          }}
+          disabled={
+            !selectedVariant ||
+            selectedVariant.stockLevel === 'OUT_OF_STOCK' ||
+            addToCart.isPending
+          }
+        >
+          <ShoppingCart className="mr-2 h-4 w-4" />
+          {addToCart.isPending ? t('adding') : t('addToCart')}
+        </Button>
+
+        <Button variant="outline" size="lg" className="w-full" onClick={handleRequestQuote}>
           <Mail className="mr-2 h-4 w-4" />
           {t('requestQuote')}
         </Button>

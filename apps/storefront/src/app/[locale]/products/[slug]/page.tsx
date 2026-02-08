@@ -9,50 +9,20 @@ import { ProductTabs } from '@/components/products/ProductTabs';
 import { RelatedProducts } from '@/components/products/RelatedProducts';
 import { ProductViewTracker } from '@/components/products/ProductViewTracker';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
+import { serverGraphqlClient } from '@/lib/graphql-client';
+import { GET_PRODUCT } from '@/lib/queries/products.graphql';
 
 interface ProductPageProps {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-// Mock product data - replace with actual API call
 async function getProduct(slug: string) {
-  // Simulated product data
-  const products: Record<string, any> = {
-    'velvet-blackout-curtain': {
-      id: '1',
-      name: 'Velvet Blackout Curtain',
-      slug: 'velvet-blackout-curtain',
-      description: 'Luxurious velvet curtains with complete blackout functionality. Perfect for bedrooms and media rooms.',
-      price: 8999,
-      currency: 'USD',
-      images: [
-        { id: '1', url: '/images/product-1.jpg', alt: 'Velvet Blackout Curtain' },
-        { id: '2', url: '/images/product-1-2.jpg', alt: 'Velvet Blackout Curtain Detail' },
-      ],
-      variants: [
-        { id: 'v1', name: 'Navy Blue - 52"x84"', price: 8999, sku: 'VBC-NB-5284' },
-        { id: 'v2', name: 'Charcoal Gray - 52"x84"', price: 8999, sku: 'VBC-CG-5284' },
-        { id: 'v3', name: 'Burgundy - 52"x84"', price: 9499, sku: 'VBC-BG-5284' },
-      ],
-      customFields: {
-        material: 'Premium Velvet',
-        style: 'Modern Luxury',
-        videoUrl: null,
-        applicationScenes: ['Bedroom', 'Living Room', 'Media Room'],
-        isNew: true,
-        isFeatured: true,
-      },
-      specifications: {
-        'Material': '100% Polyester Velvet',
-        'Lining': 'Triple-weave blackout lining',
-        'Header Type': 'Rod pocket / Back tab',
-        'Care': 'Dry clean recommended',
-        'Light Blocking': '99%+',
-      },
-    },
-  };
-
-  return products[slug] || null;
+  try {
+    const data: any = await serverGraphqlClient.request(GET_PRODUCT, { slug });
+    return data.product || null;
+  } catch {
+    return null;
+  }
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
@@ -69,7 +39,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     openGraph: {
       title: product.name,
       description: product.description,
-      images: product.images[0]?.url ? [product.images[0].url] : [],
+      images: product.featuredAsset?.preview ? [product.featuredAsset.preview] : [],
     },
   };
 }
@@ -84,6 +54,39 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) {
     notFound();
   }
+
+  // Map Vendure assets to gallery format
+  const images = product.assets?.length > 0
+    ? product.assets.map((asset: any) => ({
+        id: asset.id,
+        preview: asset.preview,
+        source: asset.source,
+      }))
+    : product.featuredAsset
+      ? [{ id: product.featuredAsset.id, preview: product.featuredAsset.preview, source: product.featuredAsset.source || product.featuredAsset.preview }]
+      : [];
+
+  // Map variants to the expected format
+  const mappedProduct = {
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    variants: product.variants.map((v: any) => ({
+      id: v.id,
+      name: v.name,
+      priceWithTax: v.priceWithTax,
+      currencyCode: v.currencyCode,
+      stockLevel: v.stockLevel || 'IN_STOCK',
+      sku: v.sku,
+    })),
+    customFields: {
+      material: product.customFields?.material,
+      style: product.customFields?.style,
+      applicationScenes: product.customFields?.applicationScenes,
+      isNew: product.customFields?.isNew,
+      isFeatured: product.customFields?.isFeatured,
+    },
+  };
 
   const breadcrumbItems = [
     { label: 'Home', href: '/' },
@@ -102,17 +105,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
       {/* Product Main Section */}
       <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
         {/* Gallery */}
-        <ProductGallery images={product.images} productName={product.name} />
+        <ProductGallery
+          images={images}
+          videoUrl={product.customFields?.videoUrl}
+          productName={product.name}
+        />
 
         {/* Product Info */}
-        <ProductInfo product={product} />
+        <ProductInfo product={mappedProduct} />
       </div>
 
       {/* Product Tabs (Details, Specifications, etc.) */}
       <ProductTabs
         description={product.description}
-        specifications={product.specifications}
-        applicationScenes={product.customFields.applicationScenes}
+        specifications={{}}
+        applicationScenes={product.customFields?.applicationScenes || []}
       />
 
       {/* Related Products */}
