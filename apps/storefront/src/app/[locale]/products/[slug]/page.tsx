@@ -116,11 +116,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </div>
 
       {/* Product Tabs (Details, Specifications, etc.) */}
-      <ProductTabs
-        description={product.description}
-        specifications={{}}
-        applicationScenes={product.customFields?.applicationScenes || []}
-      />
+      <ProductTabs product={product} />
 
       {/* fixme:  <RelatedProducts products={relatedProducts} />*/}
       {/* Related Products */}
