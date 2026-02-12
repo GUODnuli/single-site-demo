@@ -19,7 +19,7 @@ pipeline {
         stage('Prepare Environment') {
             steps {
                 withCredentials([file(credentialsId: 'single-site-demo-env', variable: 'ENV_FILE')]) {
-                    sh "cp \$ENV_FILE .env.production"
+                    sh "rm -f .env.production && cp \$ENV_FILE .env.production"
                 }
             }
         }
