@@ -32,9 +32,10 @@ COPY --from=builder /app/apps/server/dist ./dist
 COPY --from=builder /app/apps/server/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 
-# Create directories for assets and emails
+# Create directories for assets and emails, fix admin-ui plugin write permissions
 RUN mkdir -p static/assets static/email/templates static/email/test-emails && \
-    chown -R vendure:nodejs static
+    chown -R vendure:nodejs static && \
+    chown -R vendure:nodejs node_modules/@vendure/admin-ui-plugin
 
 USER vendure
 
