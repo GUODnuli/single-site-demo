@@ -233,7 +233,7 @@
     "reviewAndPay": "确认并下单",
     "reviewNote": "确认订单信息后下单。",
     "demoPaymentTitle": "演示模式",
-    "demoPaymentDescription": "这是演示订单，不会产生真实扣款。点击"确认下单"即可完成。",
+    "demoPaymentDescription": "这是演示订单，不会产生真实扣款。点击「确认下单」即可完成。",
     "contact": "联系方式",
     "shipTo": "收货地址",
     "transitionError": "无法进入支付流程，请重试。",
